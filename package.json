@@ -1,0 +1,21 @@
+{
+    "name": "illust_support_app",
+    "private": true,
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "workspaces": [
+        "frontend",
+        "backend"
+    ],
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build": "yarn workspace backend build && yarn workspace frontend build",
+        "dev": "yarn workspace backend dev && yarn workspace frontend dev"
+    },
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "yarn": "^1.22.22"
+    }
+}
