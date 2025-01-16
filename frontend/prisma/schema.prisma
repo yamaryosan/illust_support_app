@@ -1,0 +1,125 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// 画像
+model Image {
+    id Int @id @default(autoincrement())
+    path String @unique
+    description String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    subCategories SubCategoryImage[]
+    tips TipImage[]
+    tags TagImage[]
+}
+
+// お絵かきの際のヒント
+model Tip {
+    id Int @id @default(autoincrement())
+    title String
+    content String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    subCategories SubCategoryTip[]
+    tips TipImage[]
+    tags TipTag[]
+}
+
+// タグ (画像にもTipsにも付与できる)
+model Tag {
+    id Int @id @default(autoincrement())
+    name String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    tips TipTag[]
+    images TagImage[]
+}
+
+// カテゴリー(画像やTipsには、サブカテゴリーを通じて関係する)
+model Category {
+    id Int @id @default(autoincrement())
+    name String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+// サブカテゴリー(カテゴリーの中の分類、画像やTipsに付与できる)
+model SubCategory {
+    id Int @id @default(autoincrement())
+    name String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    images SubCategoryImage[]
+    tips SubCategoryTip[]
+}
+
+// サブカテゴリーと画像の関係
+model SubCategoryImage {
+    subCategory SubCategory @relation(fields: [subCategoryId], references: [id])
+    subCategoryId Int
+    image Image @relation(fields: [imageId], references: [id])
+    imageId Int
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    @@id([subCategoryId, imageId])
+}
+
+// サブカテゴリーとヒントの関係
+model SubCategoryTip {
+    subCategory SubCategory @relation(fields: [subCategoryId], references: [id])
+    subCategoryId Int
+    tip Tip @relation(fields: [tipId], references: [id])
+    tipId Int
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    @@id([subCategoryId, tipId])
+}
+
+// ヒントと画像の関係
+model TipImage {
+    tip Tip @relation(fields: [tipId], references: [id])
+    tipId Int
+    image Image @relation(fields: [imageId], references: [id])
+    imageId Int
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    @@id([tipId, imageId])
+}
+
+// タグと画像の関係
+model TagImage {
+    tag Tag @relation(fields: [tagId], references: [id])
+    tagId Int
+    image Image @relation(fields: [imageId], references: [id])
+    imageId Int
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    @@id([tagId, imageId])
+}
+
+// TipsとTagsの関係
+model TipTag {
+    tip Tip @relation(fields: [tipId], references: [id])
+    tipId Int
+    tag Tag @relation(fields: [tagId], references: [id])
+    tagId Int
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    @@id([tipId, tagId])
+}
