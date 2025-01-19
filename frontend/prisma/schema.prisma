@@ -14,70 +14,70 @@ datasource db {
 }
 
 // 画像
-model Image {
+model images {
     id Int @id @default(autoincrement())
     path String @unique
     description String
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    subCategories SubCategoryImage[]
-    tips TipImage[]
-    tags TagImage[]
+    subCategories subCategoriesImages[]
+    tips tipsImages[]
+    tags tagsImages[]
 }
 
 // お絵かきの際のヒント
-model Tip {
+model tips {
     id Int @id @default(autoincrement())
     title String
     content String
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    subCategories SubCategoryTip[]
-    tips TipImage[]
-    tags TipTag[]
+    subCategories subCategoriesTips[]
+    tips tipsImages[]
+    tags tipsTags[]
 }
 
 // タグ (画像にもTipsにも付与できる)
-model Tag {
+model tags {
     id Int @id @default(autoincrement())
     name String
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    tips TipTag[]
-    images TagImage[]
+    tips tipsTags[]
+    images tagsImages[]
 }
 
 // カテゴリー(画像やTipsには、サブカテゴリーを通じて関係する)
-model Category {
+model categories {
     id Int @id @default(autoincrement())
     name String
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    subCategories SubCategory[]
+    subCategories subCategories[]
 }
 
 // サブカテゴリー(カテゴリーの中の分類、画像やTipsに付与できる)
-model SubCategory {
+model subCategories {
     id Int @id @default(autoincrement())
-    category Category @relation(fields: [categoryId], references: [id])
+    category categories @relation(fields: [categoryId], references: [id])
     categoryId Int
     name String
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    images SubCategoryImage[]
-    tips SubCategoryTip[]
+    images subCategoriesImages[]
+    tips subCategoriesTips[]
 }
 
 // サブカテゴリーと画像の関係
-model SubCategoryImage {
-    subCategory SubCategory @relation(fields: [subCategoryId], references: [id])
+model subCategoriesImages {
+    subCategory subCategories @relation(fields: [subCategoryId], references: [id])
     subCategoryId Int
-    image Image @relation(fields: [imageId], references: [id])
+    image images @relation(fields: [imageId], references: [id])
     imageId Int
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
@@ -85,10 +85,10 @@ model SubCategoryImage {
 }
 
 // サブカテゴリーとヒントの関係
-model SubCategoryTip {
-    subCategory SubCategory @relation(fields: [subCategoryId], references: [id])
+model subCategoriesTips {
+    subCategory subCategories @relation(fields: [subCategoryId], references: [id])
     subCategoryId Int
-    tip Tip @relation(fields: [tipId], references: [id])
+    tip tips @relation(fields: [tipId], references: [id])
     tipId Int
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
@@ -96,10 +96,10 @@ model SubCategoryTip {
 }
 
 // ヒントと画像の関係
-model TipImage {
-    tip Tip @relation(fields: [tipId], references: [id])
+model tipsImages {
+    tip tips @relation(fields: [tipId], references: [id])
     tipId Int
-    image Image @relation(fields: [imageId], references: [id])
+    image images @relation(fields: [imageId], references: [id])
     imageId Int
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
@@ -107,10 +107,10 @@ model TipImage {
 }
 
 // タグと画像の関係
-model TagImage {
-    tag Tag @relation(fields: [tagId], references: [id])
+model tagsImages {
+    tag tags @relation(fields: [tagId], references: [id])
     tagId Int
-    image Image @relation(fields: [imageId], references: [id])
+    image images @relation(fields: [imageId], references: [id])
     imageId Int
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
@@ -118,10 +118,10 @@ model TagImage {
 }
 
 // TipsとTagsの関係
-model TipTag {
-    tip Tip @relation(fields: [tipId], references: [id])
+model tipsTags {
+    tip tips @relation(fields: [tipId], references: [id])
     tipId Int
-    tag Tag @relation(fields: [tagId], references: [id])
+    tag tags @relation(fields: [tagId], references: [id])
     tagId Int
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
