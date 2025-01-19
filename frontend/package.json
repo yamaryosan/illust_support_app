@@ -7,7 +7,7 @@
         "build": "next build",
         "start": "next start",
         "lint": "next lint",
-        "seed": "node --loader ts-node/esm prisma/seed.ts"
+        "seed": "dotenv -e .env.local -- node --loader ts-node/esm prisma/seed.ts"
     },
     "dependencies": {
         "@prisma/client": "6.2.1",
@@ -21,6 +21,7 @@
         "@types/node": "^22.10.7",
         "@types/react": "^19",
         "@types/react-dom": "^19",
+        "dotenv-cli": "^8.0.0",
         "eslint": "^9",
         "eslint-config-next": "15.1.4",
         "postcss": "^8",
