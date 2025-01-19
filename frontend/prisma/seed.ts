@@ -4,13 +4,13 @@ const prisma = new PrismaClient();
 
 async function main() {
     // シーディング前にテーブルをクリア
-    await prisma.tagsImages.deleteMany();
-    await prisma.tipsImages.deleteMany();
-    await prisma.tipsTags.deleteMany();
-    await prisma.subCategoriesImages.deleteMany();
-    await prisma.subCategoriesTips.deleteMany();
+    await prisma.tags_images.deleteMany();
+    await prisma.tips_images.deleteMany();
+    await prisma.tips_tags.deleteMany();
+    await prisma.subcategories_images.deleteMany();
+    await prisma.subcategories_tips.deleteMany();
 
-    await prisma.subCategories.deleteMany();
+    await prisma.subcategories.deleteMany();
     await prisma.categories.deleteMany();
     await prisma.tips.deleteMany();
     await prisma.images.deleteMany();
@@ -20,8 +20,8 @@ async function main() {
     const category = await prisma.categories.create({
         data: { name: "Category 1" },
     });
-    const subCategory = await prisma.subCategories.create({
-        data: { name: "SubCategory 1", categoryId: category.id },
+    const subcategory = await prisma.subcategories.create({
+        data: { name: "SubCategory 1", category_id: category.id },
     });
     const tip = await prisma.tips.create({
         data: { title: "Tip 1", content: "Tip 1" },
@@ -33,20 +33,20 @@ async function main() {
         data: { name: "Tag 1" },
     });
     // 中間テーブル
-    await prisma.subCategoriesImages.create({
-        data: { subCategoryId: subCategory.id, imageId: image.id },
+    await prisma.subcategories_images.create({
+        data: { subcategory_id: subcategory.id, image_id: image.id },
     });
-    await prisma.subCategoriesTips.create({
-        data: { subCategoryId: subCategory.id, tipId: tip.id },
+    await prisma.subcategories_tips.create({
+        data: { subcategory_id: subcategory.id, tip_id: tip.id },
     });
-    await prisma.tagsImages.create({
-        data: { tagId: tag.id, imageId: image.id },
+    await prisma.tags_images.create({
+        data: { tag_id: tag.id, image_id: image.id },
     });
-    await prisma.tipsImages.create({
-        data: { tipId: tip.id, imageId: image.id },
+    await prisma.tips_images.create({
+        data: { tip_id: tip.id, image_id: image.id },
     });
-    await prisma.tipsTags.create({
-        data: { tipId: tip.id, tagId: tag.id },
+    await prisma.tips_tags.create({
+        data: { tip_id: tip.id, tag_id: tag.id },
     });
 }
 
