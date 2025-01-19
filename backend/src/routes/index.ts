@@ -1,4 +1,5 @@
 import express from "express";
+import pgPromise from "pg-promise";
 
 const router = express.Router();
 
@@ -7,8 +8,12 @@ router.get("/", (req, res) => {
     res.send("Hello World");
 });
 
-router.get("/category", (req, res) => {
-    res.json({ message: "Category" });
+const db = pgPromise()("postgresql://myuser:mypassword@localhost:5432/mydb");
+
+router.get("/category", async (req, res) => {
+    // データベースからカテゴリを取得
+    const categories = await db.query("SELECT * FROM categories");
+    res.json(categories);
 });
 
 router.get("/category/:id", (req, res) => {
