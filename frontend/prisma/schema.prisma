@@ -56,11 +56,15 @@ model Category {
     name String
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+
+    subCategories SubCategory[]
 }
 
 // サブカテゴリー(カテゴリーの中の分類、画像やTipsに付与できる)
 model SubCategory {
     id Int @id @default(autoincrement())
+    category Category @relation(fields: [categoryId], references: [id])
+    categoryId Int
     name String
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
