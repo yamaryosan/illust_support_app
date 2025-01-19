@@ -8,7 +8,8 @@
         "start": "next start",
         "lint": "next lint",
         "db:push": "dotenv -e .env.local -- npx prisma db push",
-        "seed": "dotenv -e .env.local -- node --loader ts-node/esm prisma/seed.ts"
+        "seed": "dotenv -e .env.local -- node --loader ts-node/esm prisma/seed.ts",
+        "db:studio": "dotenv -e .env.local -- npx prisma studio"
     },
     "dependencies": {
         "@prisma/client": "6.2.1",
