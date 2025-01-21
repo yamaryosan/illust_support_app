@@ -100,16 +100,26 @@ router.get("/tags", async (req, res) => {
     res.json(tags);
 });
 
-// あるIDのタグを取得
-router.get("/tag/:id", async (req, res) => {
+// あるIDのタグに紐づく画像を取得
+router.get("/tag/:id/image", async (req, res) => {
     try {
-        const tag = await db.one("SELECT * FROM tags WHERE id = $1", [
-            req.params.id,
-        ]);
-        res.json(tag);
+        const images = await db.any(
+            "SELECT i.* FROM images i JOIN tags_images ti ON i.id = ti.image_id WHERE ti.tag_id = $1",
+            [req.params.id]
+        );
+        res.json(images);
     } catch (error) {
         res.status(404).json({ message: "Not Found" });
     }
+});
+
+// あるIDのタグに紐づくヒントを取得
+router.get("/tag/:id/tip", async (req, res) => {
+    const tips = await db.any(
+        "SELECT t.* FROM tips t JOIN tips_tags tt ON t.id = tt.tip_id WHERE tt.tag_id = $1",
+        [req.params.id]
+    );
+    res.json(tips);
 });
 
 export default router;
