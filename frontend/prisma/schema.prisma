@@ -14,116 +14,116 @@ datasource db {
 }
 
 // 画像
-model Image {
+model images {
     id Int @id @default(autoincrement())
     path String @unique
     description String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
 
-    subCategories SubCategoryImage[]
-    tips TipImage[]
-    tags TagImage[]
+    subcategories subcategories_images[]
+    tips tips_images[]
+    tags tags_images[]
 }
 
 // お絵かきの際のヒント
-model Tip {
+model tips {
     id Int @id @default(autoincrement())
     title String
     content String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
 
-    subCategories SubCategoryTip[]
-    tips TipImage[]
-    tags TipTag[]
+    subCategories subcategories_tips[]
+    tips tips_images[]
+    tags tips_tags[]
 }
 
 // タグ (画像にもTipsにも付与できる)
-model Tag {
+model tags {
     id Int @id @default(autoincrement())
     name String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
 
-    tips TipTag[]
-    images TagImage[]
+    tips tips_tags[]
+    images tags_images[]
 }
 
 // カテゴリー(画像やTipsには、サブカテゴリーを通じて関係する)
-model Category {
+model categories {
     id Int @id @default(autoincrement())
     name String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
 
-    subCategories SubCategory[]
+    subcategories subcategories[]
 }
 
 // サブカテゴリー(カテゴリーの中の分類、画像やTipsに付与できる)
-model SubCategory {
+model subcategories {
     id Int @id @default(autoincrement())
-    category Category @relation(fields: [categoryId], references: [id])
-    categoryId Int
+    category categories @relation(fields: [category_id], references: [id])
+    category_id Int
     name String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
 
-    images SubCategoryImage[]
-    tips SubCategoryTip[]
+    images subcategories_images[]
+    tips subcategories_tips[]
 }
 
 // サブカテゴリーと画像の関係
-model SubCategoryImage {
-    subCategory SubCategory @relation(fields: [subCategoryId], references: [id])
-    subCategoryId Int
-    image Image @relation(fields: [imageId], references: [id])
-    imageId Int
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-    @@id([subCategoryId, imageId])
+model subcategories_images {
+    subcategory subcategories @relation(fields: [subcategory_id], references: [id])
+    subcategory_id Int
+    image images @relation(fields: [image_id], references: [id])
+    image_id Int
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+    @@id([subcategory_id, image_id])
 }
 
 // サブカテゴリーとヒントの関係
-model SubCategoryTip {
-    subCategory SubCategory @relation(fields: [subCategoryId], references: [id])
-    subCategoryId Int
-    tip Tip @relation(fields: [tipId], references: [id])
-    tipId Int
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-    @@id([subCategoryId, tipId])
+model subcategories_tips {
+    subcategory subcategories @relation(fields: [subcategory_id], references: [id])
+    subcategory_id Int
+    tip tips @relation(fields: [tip_id], references: [id])
+    tip_id Int
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+    @@id([subcategory_id, tip_id])
 }
 
 // ヒントと画像の関係
-model TipImage {
-    tip Tip @relation(fields: [tipId], references: [id])
-    tipId Int
-    image Image @relation(fields: [imageId], references: [id])
-    imageId Int
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-    @@id([tipId, imageId])
+model tips_images {
+    tip tips @relation(fields: [tip_id], references: [id])
+    tip_id Int
+    image images @relation(fields: [image_id], references: [id])
+    image_id Int
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+    @@id([tip_id, image_id])
 }
 
 // タグと画像の関係
-model TagImage {
-    tag Tag @relation(fields: [tagId], references: [id])
-    tagId Int
-    image Image @relation(fields: [imageId], references: [id])
-    imageId Int
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-    @@id([tagId, imageId])
+model tags_images {
+    tag tags @relation(fields: [tag_id], references: [id])
+    tag_id Int
+    image images @relation(fields: [image_id], references: [id])
+    image_id Int
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+    @@id([tag_id, image_id])
 }
 
 // TipsとTagsの関係
-model TipTag {
-    tip Tip @relation(fields: [tipId], references: [id])
-    tipId Int
-    tag Tag @relation(fields: [tagId], references: [id])
-    tagId Int
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-    @@id([tipId, tagId])
+model tips_tags {
+    tip tips @relation(fields: [tip_id], references: [id])
+    tip_id Int
+    tag tags @relation(fields: [tag_id], references: [id])
+    tag_id Int
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+    @@id([tip_id, tag_id])
 }

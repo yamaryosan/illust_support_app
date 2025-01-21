@@ -9,9 +9,6 @@ export default function Home() {
             <Link href="/category/1">
                 <p>カテゴリー1</p>
             </Link>
-            <Link href="/subcategory">
-                <p>サブカテゴリー一覧</p>
-            </Link>
             <Link href="/subcategory/1">
                 <p>サブカテゴリー1</p>
             </Link>
