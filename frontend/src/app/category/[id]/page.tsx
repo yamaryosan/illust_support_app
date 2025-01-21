@@ -1,3 +1,6 @@
-export default function Page() {
-    return <div>Category 1</div>;
+import { getSubCategories } from "@/lib/api/subcategories";
+
+export default async function Page({ params }: { params: { id: string } }) {
+    const subCategories = await getSubCategories(params.id);
+    return <div>{JSON.stringify(subCategories)}</div>;
 }
